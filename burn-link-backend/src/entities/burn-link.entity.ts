@@ -3,8 +3,8 @@ import { pgTimestampDefaults } from "../util/typeorm-utils";
 
 @Entity("burn_link")
 export class BurnLinkEntity {
-  @Column("integer", { primary: true })
-  id: number;
+  @Column("uuid", { primary: true, generated: true })
+  id: string;
 
   @Column("character varying")
   message: string;

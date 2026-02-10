@@ -22,11 +22,11 @@ export class BurnLinkService {
     return id;
   }
 
-  public async remove(id: number) {
+  public async remove(id: string) {
     return this.repo.delete({ id: Equal(id) });
   }
 
-  public async get(id: number) {
+  public async get(id: string) {
     const burnLink = await this.repo.findOneBy({ id: Equal(id) });
     if (!burnLink) {
       this.logger.warn(`ID ${id} not found`);

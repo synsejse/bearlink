@@ -22,7 +22,7 @@ export class CreateBurnLinkRequest {
 }
 
 export class CreateBurnLinkResponse {
-  id: number;
+  id: string;
 }
 
 export class GetBurnLinkResponse {

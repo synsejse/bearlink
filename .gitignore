@@ -1,2 +1,4 @@
-bearicorn.code-workspace
+bearlink.code-workspace
 .vscode
+node_modules
+.env

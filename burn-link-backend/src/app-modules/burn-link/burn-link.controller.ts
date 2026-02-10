@@ -1,11 +1,11 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
   Logger,
   Param,
-  ParseIntPipe,
   Post,
   UsePipes,
   ValidationPipe,
@@ -29,21 +29,32 @@ export class BurnLinkController {
   ): Promise<CreateBurnLinkResponse> {
     const id = await this.burnLinkService.create(message, expirationMin);
     this.logger.log(`Created burn-link ${id}`);
-    return { id };
+    return { id: this.uuidToId(id) };
   }
 
   @Get("burn-link/:id")
   @ApiOperation({ description: "Get burn-link content" })
-  public async getBurnLink(@Param("id", new ParseIntPipe()) id: number): Promise<GetBurnLinkResponse> {
+  public async getBurnLink(@Param("id") id: string): Promise<GetBurnLinkResponse> {
     this.logger.log(`Getting burn-link ${id}`);
-    const { message } = await this.burnLinkService.get(id);
+    const { message } = await this.burnLinkService.get(this.idToUid(id));
     return { message };
   }
 
   @Delete("burn-link/:id")
   @ApiOperation({ description: "Delete burn-link" })
-  public async delete(@Param("id", new ParseIntPipe()) id: number) {
+  public async delete(@Param("id") id: string) {
     this.logger.log(`Deleting burn-link ${id}`);
-    await this.burnLinkService.remove(id);
+    await this.burnLinkService.remove(this.idToUid(id));
+  }
+
+  private uuidToId(val: string) {
+    return val.replace(/-/g, "");
+  }
+
+  private idToUid(val: string) {
+    if (!/^[0-9a-fA-F]{32}$/.test(val)) {
+      throw new BadRequestException("Invalid ID format");
+    }
+    return val.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5");
   }
 }

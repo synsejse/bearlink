@@ -8,7 +8,6 @@ import { AppConfig, CONFIG_DEFAULT } from "./config";
 import { SpaFallbackMiddleware } from "./frontend/spa-fallback.middleware";
 import { StaticFilesModule } from "./frontend/static-files.module";
 import { GlobalModule } from "./global.module";
-import { BeforeInsertSubscriber } from "./util/before-insert.subscriber";
 import { TypeOrmLogger } from "./util/type-orm-logger";
 
 const logger = new Logger("AppModule");
@@ -46,7 +45,6 @@ const logger = new Logger("AppModule");
           migrations: ["./**/typeorm-migrations/*.js"],
           migrationsTableName: "typeorm_migrations",
           migrationsRun: true,
-          subscribers: [BeforeInsertSubscriber],
         } satisfies TypeOrmModuleOptions;
 
         logger.log(

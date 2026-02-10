@@ -6,7 +6,7 @@ export class CreateBurnlinkTable1745434420166 implements MigrationInterface {
     await setSchema(queryRunner);
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS burn_link (
-        id                  INTEGER PRIMARY KEY,
+        id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         message             VARCHAR NOT NULL,
         created             TIMESTAMP NOT NULL,
         expires             TIMESTAMP
